@@ -1,0 +1,33 @@
+section {
+  color: white;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.headline {
+  margin-top: -90px;
+  background-image: url("../../img/home/headline.jpeg");
+  height: 105vh;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+.headline .headline-content {
+  text-align: center;
+}
+.headline .headline-content h1 {
+  text-transform: uppercase;
+  letter-spacing: 3px;
+}
+.headline .headline-content h3 {
+  margin: 50px 0;
+  font-weight: normal;
+  line-height: 28px;
+  letter-spacing: 2px;
+}
+.headline .headline-content button {
+  padding: 20px 100px;
+  background: linear-gradient(194.68deg, #ffb548 11.27%, #f3af34 90.4%);
+  border-radius: 4px;
+}

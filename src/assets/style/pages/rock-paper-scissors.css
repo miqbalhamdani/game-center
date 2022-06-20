@@ -1,0 +1,92 @@
+/* HEADER */
+.header {
+}
+.header .header-symbol {
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 98px;
+  text-transform: uppercase;
+  color: #724c21;
+}
+.header img {
+  margin: 0 27px;
+}
+.header .header-text {
+  font-weight: bold;
+  font-size: 36px;
+  line-height: 49px;
+  color: #f9b23d;
+}
+
+/* SECTION GAME */
+.game {
+  width: 60%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.game .player,
+.game .com {
+  text-align: center;
+}
+.game .game-hand {
+  align-items: center;
+  display: flex;
+}
+.game .game-hand img {
+  width: 130px;
+  margin: 40px 0;
+}
+
+.score {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  text-align: center;
+}
+.score .score__name {
+  font-size: 28px;
+}
+.score .score__total {
+  font-weight: 600;
+  font-size: 72px;
+}
+
+.vs {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  margin: 1rem 0;
+}
+.vs .vs__text {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  font-size: 100px;
+  text-align: center;
+  text-transform: uppercase;
+  color: #bd0000;
+}
+
+.player-pick {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.player-pick .game-hand {
+  padding: 0 5rem;
+  border: 5px solid #C4C4C4;
+  border-radius: 30px;
+  cursor: pointer;
+}
+.player-pick .game-hand img {
+  width: 72px;
+  margin: 40px 0;
+}
+.player-pick .game-hand:hover {
+  background: #C4C4C4;
+  border-radius: 30px;
+}
