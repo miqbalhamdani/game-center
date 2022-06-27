@@ -1,80 +1,68 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useState } from "react";
 
 const RockPaperContext = createContext();
 
 export const RockPaperContextProvider = ({ children }) => {
   const [playerScore, setPlayerScore] = useState(0);
   const [comScore, setComScore] = useState(0);
-  const [playerPick, setPlayerPick] = useState("");
-  const [comPick, setComPick] = useState(""); // rock, paper, scissors
+  const [playerPick, setPlayerPick] = useState("paper");
+  const [comPick, setComPick] = useState("paper"); // rock, paper, scissors
   const [result, setResult] = useState("");
 
-  useEffect(() => {
-    runFight();
-  }, [playerPick, comPick])
-
-  const runFight = () => {
-    if (playerPick) {
-      comPlayed();
-    }
-
-    if (playerPick && comPick) {
-      getResult();
-    }
-  };
-
   const comPlayed = () => {
-    // 0 - 2
-    // 2
     const num = Math.floor(Math.random() * 3);
-
-    // if (num === 0) setComPick('rock');
-    // else if (num === 1) setComPick('paper');
-    // else if (num === 2) setComPick('scissors');
-
     const hands = ['rock', 'paper', 'scissors'];
-    // num 2
-    // hands[2];
-    // setComPick('scissors');
-    setComPick(hands[num]);
+
+    return hands[num];
   };
 
-  const getResult = () => {
-    if (playerPick === comPick) {
-      setResult('draw');
-      setPlayerDraw();
-      return;
+  const getResult = (player, com) => {
+    if (player === com) {
+      return 'draw';
     } else if (
-      (playerPick === 'rock' && comPick === 'scissors')
-      || (playerPick === 'paper' && comPick === 'rock')
-      || (playerPick === 'scissors' && comPick === 'paper')
+      (player === 'rock' && com === 'scissors')
+      || (player === 'paper' && com === 'rock')
+      || (player === 'scissors' && com === 'paper')
     ) {
-      setResult('win');
-      setPlayerWin();
-      return;
+      return 'win';
     } else {
-      setResult('lose');
-      setPlayerLose();
+      return 'lose';
     }
   };
 
-  const setPlayerWin = () => {
-    setPlayerScore(playerScore + 15)
+  const getScore = (playerResult) => {
+    let player = playerScore;
+    let com = comScore;
 
-    const totalComScore = comScore < 1 ? 0 : +comScore - 5;
-    setComScore(totalComScore - 5)
-  }
+    if (playerResult === 'win') {
+      player += 15;
+      com -= 5;
+    }else if (playerResult === 'lose') {
+      player -= 5;
+      com += 15;
+    } else {
+      player += 5;
+      com += 5;
+    }
 
-  const setPlayerDraw = () => {
-    setPlayerScore(+playerScore + 5)
-    setComScore(+comScore + 5)
-  }
+    return [player, com];
+  };
 
-  const setPlayerLose = () => {
-    const totalPlayerScore = playerScore < 1 ? 0 : +playerScore - 5;
-    setPlayerScore(totalPlayerScore)
+  const handlePlayerPick = async (hand) => {
+    // set player pick
+    setPlayerPick(hand);
 
-    setComScore(comScore + 15)
+    // set com pick with random function
+    const com = await comPlayed();
+    setComPick(com);
+
+    // get all result
+    const playerResult = await getResult(hand, com);
+    setResult(playerResult);
+
+    const [pScore, cScore] = getScore(playerResult);
+    setPlayerScore(pScore);
+    setComScore(cScore);
   }
 
   return (
@@ -83,9 +71,9 @@ export const RockPaperContextProvider = ({ children }) => {
         playerScore,
         comScore,
         playerPick,
-        setPlayerPick,
         comPick,
         result,
+        handlePlayerPick,
       }}
     >
       {children}

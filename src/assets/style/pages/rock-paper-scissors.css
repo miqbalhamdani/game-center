@@ -86,7 +86,8 @@
   width: 72px;
   margin: 40px 0;
 }
-.player-pick .game-hand:hover {
+.player-pick .game-hand:hover,
+.player-pick .game-hand.selected-hand {
   background: #C4C4C4;
   border-radius: 30px;
 }
