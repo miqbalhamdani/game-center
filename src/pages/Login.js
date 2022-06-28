@@ -2,11 +2,24 @@ import React, { useState } from "react";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
+import { Spinner } from "reactstrap";
+
+import { useSelector, useDispatch } from "react-redux";
+import {
+  showErrorToast,
+  showSuccessAlert,
+  setLoading,
+  setProfile,
+} from "../store/reducer/userSlice";
+
 export default function Login() {
   let navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const isLoading = useSelector((state) => state.user.isLoading);
+  const dispatch = useDispatch();
 
   const submitForm = (e) => {
     e.preventDefault();
@@ -14,14 +27,33 @@ export default function Login() {
     const auth = getAuth();
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        const user = JSON.stringify(userCredential.user);
-        localStorage.setItem("FbAuthUser", user);
+        const { displayName, email, photoURL, uid } = userCredential.user;
+        const profile = {
+          name: displayName,
+          email: email,
+          photo: photoURL,
+          id: uid,
+        };
+        dispatch(setProfile(profile));
+        dispatch(setLoading(false));
+        dispatch(showSuccessAlert(`Success Login with ${email}`));
 
         navigate("/");
       })
       .catch((error) => {
-        console.log(error.code, error.message);
+        dispatch(setLoading(false));
+        dispatch(showErrorToast(error.code));
       });
+  };
+
+  const loading = () => {
+    return (
+      isLoading && (
+        <Spinner size="sm" className="me-2">
+          Loading...
+        </Spinner>
+      )
+    );
   };
 
   return (
@@ -63,6 +95,7 @@ export default function Login() {
                     className="btn btn-primary text-right float-end mb-3"
                     style={{ width: "125px", marginRight: "20px" }}
                   >
+                    {loading()}
                     Submit
                   </button>
                 </div>

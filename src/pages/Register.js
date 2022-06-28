@@ -1,25 +1,59 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
+import { Spinner } from "reactstrap";
 import InputText from "../components/ui/InputText/InputText";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  showErrorToast,
+  showSuccessAlert,
+  setLoading,
+  setProfile,
+} from "../store/reducer/userSlice";
 
 export default function Register() {
+  let navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const isLoading = useSelector((state) => state.user.isLoading);
+  const dispatch = useDispatch();
+
   const submitForm = (e) => {
     e.preventDefault();
+    dispatch(setLoading(true));
 
     const auth = getAuth();
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        const user = userCredential.user;
-        // uid
+        const { displayName, email, photoURL, uid } = userCredential.user;
+        const profile = {
+          name: displayName,
+          email: email,
+          photo: photoURL,
+          id: uid,
+        };
+        dispatch(setProfile(profile));
+        dispatch(setLoading(false));
+        navigate("/");
+
+        dispatch(showSuccessAlert(`Success Login with ${email}`));
       })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
+        dispatch(setLoading(false));
+        dispatch(showErrorToast(error.code));
       });
+  };
+
+  const loading = () => {
+    return (
+      isLoading && (
+        <Spinner size="sm" className="me-2">
+          Loading...
+        </Spinner>
+      )
+    );
   };
 
   return (
@@ -32,15 +66,15 @@ export default function Register() {
 
               <form className="row g-3" onSubmit={submitForm}>
                 <InputText
-                  label="Please Input Email"
+                  label="Email"
                   type="email"
-                  onChange={(value) => setEmail(value) }
+                  onChange={(value) => setEmail(value)}
                 />
 
                 <InputText
-                  label="Please Input Password"
+                  label="Password"
                   type="password"
-                  onChange={(value) => setPassword(value) }
+                  onChange={(value) => setPassword(value)}
                 />
 
                 <div className="row m-auto">
@@ -49,6 +83,7 @@ export default function Register() {
                     className="btn btn-primary text-right float-end mb-3"
                     style={{ width: "125px", marginRight: "20px" }}
                   >
+                    {loading()}
                     Submit
                   </button>
                 </div>
