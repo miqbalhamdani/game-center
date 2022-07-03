@@ -69,6 +69,7 @@ export const RockPaperContextProvider = ({ children }) => {
     <RockPaperContext.Provider
       value={{
         playerScore,
+        setPlayerScore,
         comScore,
         playerPick,
         comPick,
