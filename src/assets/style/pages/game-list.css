@@ -11,7 +11,7 @@
 .game-list__content {
   display: grid;
   grid-gap: 2rem;
-  grid-template-columns: repeat(auto-fit,minmax(300px,1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 }
 
 .game-card {
@@ -22,12 +22,18 @@
   cursor: pointer;
 }
 
+.game-card__badge {
+  top: 0.5rem;
+  position: absolute;
+  left: 0.75rem;
+}
+
 .game-card:hover > .game-card__title {
   display: block !important;
   height: 60px;
   position: absolute;
   bottom: 0;
-  padding: .5rem;
+  padding: 0.5rem;
   background-color: black;
   width: 100%;
   color: white;
