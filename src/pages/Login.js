@@ -23,6 +23,7 @@ export default function Login() {
 
   const submitForm = (e) => {
     e.preventDefault();
+    dispatch(setLoading(true));
 
     const auth = getAuth();
     signInWithEmailAndPassword(auth, email, password)

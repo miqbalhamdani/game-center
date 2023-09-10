@@ -1,11 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useSelector } from 'react-redux'
+import { useSelector } from "react-redux";
 
 import "./navbar.css";
 
 export default function Navbar() {
-  const email = useSelector(state => state.user.profile.email)
+  const email = useSelector((state) => state.user.profile.email);
 
   const guestMenu = () => (
     <ul className="navbar-nav mb-2 mb-lg-0">
@@ -65,7 +65,7 @@ export default function Navbar() {
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/game-list">
+              <Link className="nav-link" to="/games">
                 GAME LIST
               </Link>
             </li>

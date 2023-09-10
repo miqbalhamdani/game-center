@@ -43,8 +43,8 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/game-list" element={<GameList />} />
-          <Route path="/game-detail" element={<GameDetail />} />
+          <Route path="/games" element={<GameList />} />
+          <Route path="/games/:slug" element={<GameDetail />} />
         </Routes>
       </BrowserRouter>
     </>
